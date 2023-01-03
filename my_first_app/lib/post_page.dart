@@ -48,8 +48,7 @@ class _PostedPage extends State<PostedPage> {
             'https://cdn.piepme.com/1414/images/piep-PIRkJYUb15986107483311598610748331.png',
       },
       {
-        'title':
-            'The best books of all time by Victoc Hugo-an author The best books of all time by Victoc Hugo-an author  The best books of all time by Victoc Hugo-an author  The best books of all time by Victoc Hugo-an author   ',
+        'title': 'The best books of all time by Victoc Hugo-an author',
         'images':
             'https://cdn.piepme.com/21118/images/s720-piep-44MYCZK716717600608751671760060875.png',
       },
