@@ -57,107 +57,204 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   get index => null;
-  // final ScrollController _scrollController = ScrollController();
 
   @override
-  void initState() {
-    // _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-    //     duration: const Duration(seconds: 1),
-    //     curve: Curves.fastLinearToSlowEaseIn);
-
-    // super.initState();
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
     const height = 1000 / 1;
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      backgroundColor: const Color(0xfff0f0f0),
-      appBar: AppBar(
+
+    return MaterialApp(
+      theme: ThemeData(),
+      home: Scaffold(
+        backgroundColor: const Color(0xfff0f0f0),
+        appBar: AppBar(
           primary: true,
           toolbarHeight: 103,
           centerTitle: true,
           flexibleSpace: const FlexibleSpaceBar(
             background: DecoratedBox(
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                  Color(0xfff3475b),
-                  Color(0xfff1884d),
-                ]))),
+                    gradient: LinearGradient(colors: [
+              Color(0xfff3475b),
+              Color(0xfff1884d),
+            ], begin: Alignment.topLeft, end: Alignment.bottomRight))),
           ),
-          // Here we take the value from the MyHomePage object that was created by
-          //
-          //
-          // the App.build method, and use it to set our appbar title.
-
           title: Container(
             margin: const EdgeInsets.only(top: 40),
             child: Text(
               widget.title,
               style: GoogleFonts.beVietnamPro(
-                  textStyle: const TextStyle(color: Color(0xffffffff)),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          )),
-      body: Center(
-        child: FloatingActionButton(
-          child: Container(
-            width: 60,
-            height: 60,
-            decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xfff3475b),
-                      Color.fromRGBO(241, 136, 77, 1),
-                    ])),
-            child: const Icon(
-              Icons.add,
-              size: 40,
+                  textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
             ),
           ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const PostedPage()),
-            );
-          },
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FloatingActionButton(
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xfff3475b),
+                            Color.fromRGBO(241, 136, 77, 1),
+                          ])),
+                  child: const Icon(
+                    Icons.add,
+                    size: 40,
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PostedPage()),
+                  );
+                },
+              ),
+              Container(
+                child: const DialogExample(),
+              ),
+            ],
+          ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Container(
-      //     width: 60,
-      //     height: 60,
-      //     decoration: const BoxDecoration(
-      //         shape: BoxShape.circle,
-      //         gradient: LinearGradient(
-      //           begin: Alignment.topLeft,
-      //           end: Alignment.bottomRight,
-      //           colors: [
-      //             Color(0xfff3475b),
-      //             Color(0xfff1884d),
-      //           ],
-      //         )),
-      //     child: const Icon(
-      //       Icons.add,
-      //       size: 40,
-      //     ),
-      //   ),
-      //   onPressed: () {},
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+class DialogExample extends StatelessWidget {
+  const DialogExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => showDialog<String>(
+        context: context,
+        builder: (_) => FunkyOverlay(),
+      ),
+      child: const Text('Show Dialog'),
+    );
+  }
+}
+
+class FunkyOverlay extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => FunkyOverlayState();
+}
+
+class FunkyOverlayState extends State<FunkyOverlay>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 450));
+    scaleAnimation =
+        CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
+
+    controller.addListener(() {
+      setState(() {});
+    });
+
+    controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: ScaleTransition(
+          scale: scaleAnimation,
+          child: Container(
+              width: 314,
+              height: 287,
+              decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0))),
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 22),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CircleAvatar(
+                          radius: 30.0,
+                          backgroundImage: NetworkImage(
+                              "https://piepme.s3.ap-southeast-1.amazonaws.com/23822/images/avartaoohhay?t=166020947126187.4"),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                      child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12, bottom: 5),
+                        child: Text('You really want to be friend with',
+                            style: GoogleFonts.beVietnamPro(
+                                textStyle: const TextStyle(
+                                    color: Color(0xff686868),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14))),
+                      ),
+                      Text('Doreamon',
+                          style: GoogleFonts.beVietnamPro(
+                              textStyle: const TextStyle(
+                                  color: Color(0xfff3495b),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14))),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                            width: 246,
+                            height: 50,
+                            margin: const EdgeInsets.only(top: 10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: const LinearGradient(
+                                    colors: [
+                                      Color(0xfff3495b),
+                                      Color(0xfff1874d),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight)),
+                            child: Center(
+                              child: Text(
+                                'Yes!',
+                                style: GoogleFonts.beVietnamPro(
+                                    textStyle: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            )),
+                      )
+                    ],
+                  ))
+                ],
+              )),
+        ),
+      ),
     );
   }
 }
