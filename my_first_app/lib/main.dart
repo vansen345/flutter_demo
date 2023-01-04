@@ -57,9 +57,37 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   get index => null;
+  bool _search = false;
 
   @override
   void initState() {}
+  Widget _searchTextFiled() {
+    return const TextField(
+      autofocus: true, //Display the keyboard when TextField is displayed
+      cursorColor: Colors.white,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+      ),
+      textInputAction:
+          TextInputAction.search, //Specify the action button on the keyboard
+      decoration: InputDecoration(
+        //Style of TextField
+        enabledBorder: UnderlineInputBorder(
+            //Default TextField border
+            borderSide: BorderSide(color: Colors.white)),
+        focusedBorder: UnderlineInputBorder(
+            //Borders when a TextField is in focus
+            borderSide: BorderSide(color: Colors.white)),
+        hintText: 'Search', //Text that is displayed when nothing is entered.
+        hintStyle: TextStyle(
+          //Style of hintText
+          color: Colors.white60,
+          fontSize: 20,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,23 +103,57 @@ class _MyHomePageState extends State<MyHomePage> {
           centerTitle: true,
           flexibleSpace: const FlexibleSpaceBar(
             background: DecoratedBox(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-              Color(0xfff3475b),
-              Color(0xfff1884d),
-            ], begin: Alignment.topLeft, end: Alignment.bottomRight))),
-          ),
-          title: Container(
-            margin: const EdgeInsets.only(top: 40),
-            child: Text(
-              widget.title,
-              style: GoogleFonts.beVietnamPro(
-                  textStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold)),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color(0xfff3475b),
+                  Color(0xfff1884d),
+                ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+              ),
             ),
           ),
+          title: !_search
+              ? Container(
+                  margin: const EdgeInsets.only(top: 40),
+                  child: Text(
+                    widget.title,
+                    style: GoogleFonts.beVietnamPro(
+                      textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              : _searchTextFiled(),
+          actions: !_search
+              ? [
+                  Container(
+                      margin: const EdgeInsets.only(top: 40),
+                      child: IconButton(
+                          onPressed: () {
+                            setState(
+                              () {
+                                _search = true;
+                              },
+                            );
+                          },
+                          icon: const Icon(Icons.search),
+                          color: Colors.white))
+                ]
+              : [
+                  Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      child: IconButton(
+                          onPressed: () {
+                            setState(
+                              () {
+                                _search = false;
+                              },
+                            );
+                          },
+                          icon: const Icon(Icons.clear),
+                          color: Colors.white))
+                ],
         ),
         body: Center(
           child: Column(
@@ -183,39 +245,42 @@ class FunkyOverlayState extends State<FunkyOverlay>
         child: ScaleTransition(
           scale: scaleAnimation,
           child: Container(
-              width: 314,
-              height: 287,
-              decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0))),
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 22),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundImage: NetworkImage(
-                              "https://piepme.s3.ap-southeast-1.amazonaws.com/23822/images/avartaoohhay?t=166020947126187.4"),
-                        )
-                      ],
-                    ),
+            width: 314,
+            height: 287,
+            decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0))),
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 22),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircleAvatar(
+                        radius: 30.0,
+                        backgroundImage: NetworkImage(
+                            "https://piepme.s3.ap-southeast-1.amazonaws.com/23822/images/avartaoohhay?t=166020947126187.4"),
+                      )
+                    ],
                   ),
-                  Expanded(
-                      child: Column(
+                ),
+                Expanded(
+                  child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 12, bottom: 5),
-                        child: Text('You really want to be friend with',
-                            style: GoogleFonts.beVietnamPro(
-                                textStyle: const TextStyle(
-                                    color: Color(0xff686868),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14))),
+                        child: Text(
+                          'You really want to be friend with',
+                          style: GoogleFonts.beVietnamPro(
+                            textStyle: const TextStyle(
+                                color: Color(0xff686868),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14),
+                          ),
+                        ),
                       ),
                       Text('Doreamon',
                           style: GoogleFonts.beVietnamPro(
@@ -226,33 +291,62 @@ class FunkyOverlayState extends State<FunkyOverlay>
                       GestureDetector(
                         onTap: () {},
                         child: Container(
-                            width: 246,
-                            height: 50,
-                            margin: const EdgeInsets.only(top: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xfff3495b),
-                                      Color(0xfff1874d),
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight)),
-                            child: Center(
-                              child: Text(
-                                'Yes!',
-                                style: GoogleFonts.beVietnamPro(
-                                    textStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                          width: 246,
+                          height: 50,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xfff3495b),
+                                  Color(0xfff1874d),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Yes!',
+                              style: GoogleFonts.beVietnamPro(
+                                textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            )),
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          width: 246,
+                          height: 50,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color(0xfff4f4f4)),
+                          child: Center(
+                            child: Text(
+                              'Refuse!',
+                              style: GoogleFonts.beVietnamPro(
+                                textStyle: const TextStyle(
+                                    color: Color(0xff686868),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
                       )
                     ],
-                  ))
-                ],
-              )),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
