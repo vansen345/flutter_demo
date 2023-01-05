@@ -61,33 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {}
-  Widget _searchTextFiled() {
-    return const TextField(
-      autofocus: true, //Display the keyboard when TextField is displayed
-      cursorColor: Colors.white,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 20,
-      ),
-      textInputAction:
-          TextInputAction.search, //Specify the action button on the keyboard
-      decoration: InputDecoration(
-        //Style of TextField
-        enabledBorder: UnderlineInputBorder(
-            //Default TextField border
-            borderSide: BorderSide(color: Colors.white)),
-        focusedBorder: UnderlineInputBorder(
-            //Borders when a TextField is in focus
-            borderSide: BorderSide(color: Colors.white)),
-        hintText: 'Search', //Text that is displayed when nothing is entered.
-        hintStyle: TextStyle(
-          //Style of hintText
-          color: Colors.white60,
-          fontSize: 20,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,63 +71,31 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Scaffold(
         backgroundColor: const Color(0xfff0f0f0),
         appBar: AppBar(
-          primary: true,
-          toolbarHeight: 103,
-          centerTitle: true,
-          flexibleSpace: const FlexibleSpaceBar(
-            background: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Color(0xfff3475b),
-                  Color(0xfff1884d),
-                ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+            primary: true,
+            toolbarHeight: 103,
+            centerTitle: true,
+            flexibleSpace: const FlexibleSpaceBar(
+              background: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Color(0xfff3475b),
+                    Color(0xfff1884d),
+                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                ),
               ),
             ),
-          ),
-          title: !_search
-              ? Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  child: Text(
-                    widget.title,
-                    style: GoogleFonts.beVietnamPro(
-                      textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              : _searchTextFiled(),
-          actions: !_search
-              ? [
-                  Container(
-                      margin: const EdgeInsets.only(top: 40),
-                      child: IconButton(
-                          onPressed: () {
-                            setState(
-                              () {
-                                _search = true;
-                              },
-                            );
-                          },
-                          icon: const Icon(Icons.search),
-                          color: Colors.white))
-                ]
-              : [
-                  Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: IconButton(
-                          onPressed: () {
-                            setState(
-                              () {
-                                _search = false;
-                              },
-                            );
-                          },
-                          icon: const Icon(Icons.clear),
-                          color: Colors.white))
-                ],
-        ),
+            title: Container(
+              margin: const EdgeInsets.only(top: 40),
+              child: Text(
+                widget.title,
+                style: GoogleFonts.beVietnamPro(
+                  textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            )),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

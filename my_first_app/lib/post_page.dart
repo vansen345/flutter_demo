@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
@@ -6,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_masonry_view/flutter_masonry_view.dart';
+import 'package:flutter/foundation.dart';
 
 class PostedPage extends StatefulWidget {
   const PostedPage({super.key});
@@ -23,33 +25,70 @@ class _PostedPage extends State<PostedPage> {
   void initState() {}
 
   Widget _searchTextFiled() {
+    TextEditingController textController = TextEditingController();
     return Container(
-      margin: const EdgeInsets.only(top: 40),
-      height: 44,
-      child: TextField(
-        autofocus: true, //Display the keyboard when TextField is displayed
-        cursorColor: Colors.white,
-        style: const TextStyle(
-          color: Color(0xff686868),
-          fontSize: 20,
-        ),
-        textInputAction:
-            TextInputAction.search, //Specify the action button on the keyboard
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none,
+      alignment: Alignment.center,
+      margin: const EdgeInsets.only(top: 50),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                child: Text(
+                  'Posted',
+                  style: GoogleFonts.beVietnamPro(
+                      textStyle: const TextStyle(color: Color(0xffffffff)),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
           ),
-          //Style of TextField
-          fillColor: Colors.white,
-          filled: true,
-          hintText: 'Search', //Text that is displayed when nothing is entered.
-          hintStyle: const TextStyle(
-            //Style of hintText
-            color: Color(0xff686868),
-            fontSize: 14,
-          ),
-        ),
+          Container(
+            alignment: Alignment.center,
+            height: 44,
+            child: TextField(
+              controller: textController,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Color(0xff686868),
+              ),
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 10.0),
+                fillColor: Colors.white,
+                filled: true,
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: Color(0xfff3495b),
+                ),
+                hintText: "Search",
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _search = false;
+                    });
+                  },
+                  child: const Icon(
+                    Icons.clear,
+                    color: Color(0xfff3495b),
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      const BorderSide(color: Colors.white, width: 10.0),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -92,7 +131,7 @@ class _PostedPage extends State<PostedPage> {
             'https://cdn.piepme.com/2599/images/s720-piep-Vjc4A3ms16708194842441670819484244.jpg',
       },
       {
-        'title': 'Mọi thứ sẽ ổn thôi',
+        'title': 'Mọi t hứ sẽ ổn thôi',
         'images':
             'https://cdn.piepme.com/24349/images/s720-piep-yTihJkgS16717197540471671719754047.jpg',
       },
@@ -112,33 +151,35 @@ class _PostedPage extends State<PostedPage> {
       backgroundColor: const Color(0xfff0f0f0),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: 103,
+        toolbarHeight: 143,
         elevation: 0,
-        leading: Container(
-          margin: const EdgeInsets.only(top: 40, left: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.white.withOpacity(0.2),
-                radius: 20,
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(
-                    Icons.chevron_left,
-                    color: Colors.white,
-                  ),
-                  color: Colors.white,
-                  onPressed: () => Navigator.of(context).pop(),
+        leading: !_search
+            ? Container(
+                margin: const EdgeInsets.only(top: 50, left: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.white.withOpacity(0.2),
+                      radius: 20,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: const Icon(
+                          Icons.chevron_left,
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ),
+              )
+            : null,
         title: !_search
             ? Container(
                 alignment: Alignment.center,
-                margin: const EdgeInsets.only(top: 40, right: 10),
+                margin: const EdgeInsets.only(top: 50, right: 10),
                 child: Text('Posted',
                     style: GoogleFonts.beVietnamPro(
                         textStyle: const TextStyle(color: Color(0xffffffff)),
@@ -149,7 +190,7 @@ class _PostedPage extends State<PostedPage> {
         actions: !_search
             ? [
                 Container(
-                  margin: const EdgeInsets.only(top: 40, right: 10),
+                  margin: const EdgeInsets.only(top: 50, right: 10),
                   child: CircleAvatar(
                     backgroundColor: Colors.white.withOpacity(0.2),
                     radius: 20,
@@ -169,29 +210,18 @@ class _PostedPage extends State<PostedPage> {
             : [
                 Container(
                   margin: const EdgeInsets.only(top: 40),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white.withOpacity(0.2),
-                    radius: 20,
-                    child: IconButton(
-                        onPressed: () {
-                          setState(
-                            () {
-                              _search = false;
-                            },
-                          );
-                        },
-                        icon: const Icon(Icons.clear),
-                        color: Colors.white),
-                  ),
                 )
               ],
         flexibleSpace: const FlexibleSpaceBar(
-            background: DecoratedBox(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [Color(0xfff3475b), Color(0xfff1884d)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight)))),
+          background: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color(0xfff3475b), Color(0xfff1884d)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight),
+            ),
+          ),
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.only(bottom: 20),
