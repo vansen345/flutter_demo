@@ -28,24 +28,9 @@ class _PostedPage extends State<PostedPage> {
     TextEditingController textController = TextEditingController();
     return Container(
       alignment: Alignment.center,
-      margin: const EdgeInsets.only(top: 50),
+      // margin: const EdgeInsets.only(top: 50),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  'Posted',
-                  style: GoogleFonts.beVietnamPro(
-                      textStyle: const TextStyle(color: Color(0xffffffff)),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-              )
-            ],
-          ),
           Container(
             alignment: Alignment.center,
             height: 44,
@@ -67,9 +52,11 @@ class _PostedPage extends State<PostedPage> {
                 hintText: "Search",
                 suffixIcon: GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _search = false;
-                    });
+                    setState(
+                      () {
+                        textController.clear();
+                      },
+                    );
                   },
                   child: const Icon(
                     Icons.clear,
@@ -87,7 +74,7 @@ class _PostedPage extends State<PostedPage> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -126,103 +113,174 @@ class _PostedPage extends State<PostedPage> {
             'https://cdn.piepme.com/17071/images/s720-piep-LnpvXoOk16716652125501671665212550.jpg',
       },
       {
-        'title': 'The best books of all time by Victoc Hugo-an author ',
+        'title': 'The best books of all time by Victoc Hugo-an author',
         'images':
             'https://cdn.piepme.com/2599/images/s720-piep-Vjc4A3ms16708194842441670819484244.jpg',
       },
       {
-        'title': 'Mọi t hứ sẽ ổn thôi',
+        'title': 'The best books of all time by Victoc Hugo-an author',
         'images':
-            'https://cdn.piepme.com/24349/images/s720-piep-yTihJkgS16717197540471671719754047.jpg',
+            'https://cdn.piepme.com/2599/images/s720-piep-Vjc4A3ms16708194842441670819484244.jpg',
       },
       {
         'title': 'Mọi thứ sẽ ổn thôi',
         'images':
-            'https://cdn.piepme.com/24349/images/s720-piep-yTihJkgS16717197540471671719754047.jpg',
-      },
-      {
-        'title': 'Mọi thứ sẽ ổn thôi',
-        'images':
-            'https://cdn.piepme.com/24349/images/s720-piep-yTihJkgS16717197540471671719754047.jpg',
+            'https://cdn.piepme.com/24349/images/s720-piep-yTihJkgS16717197540471671719754047.jpg'
       }
     ];
 
     return Scaffold(
       backgroundColor: const Color(0xfff0f0f0),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        toolbarHeight: 143,
-        elevation: 0,
-        leading: !_search
-            ? Container(
-                margin: const EdgeInsets.only(top: 50, left: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white.withOpacity(0.2),
-                      radius: 20,
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: const Icon(
-                          Icons.chevron_left,
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        onPressed: () => Navigator.of(context).pop(),
+      appBar: !_search
+          ? AppBar(
+              automaticallyImplyLeading: false,
+              toolbarHeight: 103,
+              elevation: 0,
+              leading: !_search
+                  ? Container(
+                      margin: const EdgeInsets.only(top: 50, left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.white.withOpacity(0.2),
+                            radius: 15,
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(
+                                Icons.chevron_left,
+                                color: Colors.white,
+                              ),
+                              color: Colors.white,
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ),
+                        ],
                       ),
+                    )
+                  : null,
+              title: !_search
+                  ? Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.only(top: 50, right: 10),
+                      child: Text(
+                        'Posted',
+                        style: GoogleFonts.beVietnamPro(
+                            textStyle:
+                                const TextStyle(color: Color(0xffffffff)),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  : _searchTextFiled(),
+              actions: !_search
+                  ? [
+                      Container(
+                        margin: const EdgeInsets.only(top: 50, right: 10),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white.withOpacity(0.2),
+                          radius: 15,
+                          child: IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _search = true;
+                                  },
+                                );
+                              },
+                              icon: const Icon(Icons.search),
+                              color: Colors.white),
+                        ),
+                      )
+                    ]
+                  : [
+                      Container(
+                        margin: const EdgeInsets.only(top: 40),
+                      )
+                    ],
+              flexibleSpace: const FlexibleSpaceBar(
+                background: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [Color(0xfff3475b), Color(0xfff1884d)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight),
+                  ),
+                ),
+              ),
+            )
+          : AppBar(
+              automaticallyImplyLeading: false,
+              toolbarHeight: 153,
+              elevation: 0,
+              centerTitle: true,
+              title: Container(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 40, bottom: 5),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white.withOpacity(0.2),
+                            radius: 15,
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(
+                                Icons.chevron_left,
+                                color: Colors.white,
+                              ),
+                              color: Colors.white,
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _search = false;
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 40, bottom: 10),
+                          child: Text(
+                            'Search',
+                            style: GoogleFonts.beVietnamPro(
+                                textStyle: const TextStyle(
+                                  color: Color(0xffffffff),
+                                ),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                            right: 40,
+                          ),
+                        ),
+                      ],
                     ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: _searchTextFiled(),
+                    )
                   ],
                 ),
-              )
-            : null,
-        title: !_search
-            ? Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(top: 50, right: 10),
-                child: Text('Posted',
-                    style: GoogleFonts.beVietnamPro(
-                        textStyle: const TextStyle(color: Color(0xffffffff)),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-              )
-            : _searchTextFiled(),
-        actions: !_search
-            ? [
-                Container(
-                  margin: const EdgeInsets.only(top: 50, right: 10),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white.withOpacity(0.2),
-                    radius: 20,
-                    child: IconButton(
-                        onPressed: () {
-                          setState(
-                            () {
-                              _search = true;
-                            },
-                          );
-                        },
-                        icon: const Icon(Icons.search),
-                        color: Colors.white),
+              ),
+              flexibleSpace: const FlexibleSpaceBar(
+                background: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [Color(0xfff3475b), Color(0xfff1884d)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight),
                   ),
-                )
-              ]
-            : [
-                Container(
-                  margin: const EdgeInsets.only(top: 40),
-                )
-              ],
-        flexibleSpace: const FlexibleSpaceBar(
-          background: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Color(0xfff3475b), Color(0xfff1884d)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
       body: Container(
         padding: const EdgeInsets.only(bottom: 20),
         decoration: const BoxDecoration(
@@ -231,7 +289,7 @@ class _PostedPage extends State<PostedPage> {
             topLeft: Radius.circular(12.0),
             bottomLeft: Radius.circular(12.0),
             bottomRight: Radius.circular(12.0),
-            topRight: Radius.circular(12.0), // FLUTTER BUG FIX
+            topRight: Radius.circular(12.0),
           ),
           boxShadow: [
             BoxShadow(
@@ -278,43 +336,44 @@ class _PostedPage extends State<PostedPage> {
                         ),
                       ),
                       Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                              color: const Color.fromRGBO(51, 204, 51, 0.9),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 20),
-                                    child: Text(
-                                      formattedDate.toString(),
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: const Text(
-                                      '|',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 20),
-                                    child: Text(
-                                      formattedTime.toString(),
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  )
-                                ],
-                              ))),
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          color: const Color.fromRGBO(51, 204, 51, 0.9),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(left: 20),
+                                child: Text(
+                                  formattedDate.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              Container(
+                                child: const Text(
+                                  '|',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(right: 20),
+                                child: Text(
+                                  formattedTime.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                       Container(
                         margin: const EdgeInsets.only(right: 5, top: 10),
                         child: const Align(
@@ -338,14 +397,13 @@ class _PostedPage extends State<PostedPage> {
                     ],
                   ),
                   Container(
-                    width: 200,
+                    alignment: Alignment.bottomLeft,
                     padding: const EdgeInsets.all(8),
                     child: Column(
                       children: [
                         Text(
                           "${item.elementAt(index)['title']}",
-                          // maxLines: 4,
-                          textAlign: TextAlign.left,
+                          maxLines: 4,
                           style: GoogleFonts.beVietnamPro(
                               textStyle: const TextStyle(
                                 color: Color(0xff000000),
@@ -371,31 +429,33 @@ class _PostedPage extends State<PostedPage> {
                     child: Row(
                       children: [
                         Expanded(
-                            child: Row(
-                          children: [
-                            ShaderMask(
-                              blendMode: BlendMode.srcATop,
-                              shaderCallback: (bounds) => const LinearGradient(
-                                      colors: [
-                                    Color(0xfff1874d),
-                                    Color(0xfff3495b),
-                                  ],
-                                      begin: Alignment.topRight,
-                                      end: Alignment.topLeft)
-                                  .createShader(bounds),
-                              child: const Icon(
-                                Icons.favorite,
+                          child: Row(
+                            children: [
+                              ShaderMask(
+                                blendMode: BlendMode.srcATop,
+                                shaderCallback: (bounds) =>
+                                    const LinearGradient(
+                                            colors: [
+                                      Color(0xfff1874d),
+                                      Color(0xfff3495b),
+                                    ],
+                                            begin: Alignment.topRight,
+                                            end: Alignment.topLeft)
+                                        .createShader(bounds),
+                                child: const Icon(
+                                  Icons.favorite,
+                                ),
                               ),
-                            ),
-                            const Text(
-                              '50',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        )),
+                              const Text(
+                                '50',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xff000000),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
                         Expanded(
                           child: Row(
                             children: const [
